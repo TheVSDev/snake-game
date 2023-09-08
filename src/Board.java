@@ -24,6 +24,8 @@ public class Board extends JPanel implements ActionListener {
     private boolean upDirection = false;
     private boolean downDirection = false;
 
+    private boolean inGame = true;
+
     private int dots;
     private Timer timer;
 
@@ -121,8 +123,35 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    public void checkCollision() {
+        for (int i = dots; i > 0; i--) {
+            if (( i > 4 ) && (x[0] == x[i]) && (y[0] == y[i])) {
+                inGame = false;
+            }
+        }
+
+        if (y[0] >= 300) {
+            inGame = false;
+        }
+        if (x[0] >= 300) {
+            inGame = false;
+        }
+        if (y[0] < 0) {
+            inGame = false;
+        }
+        if (x[0] < 0) {
+            inGame = false;
+        }
+
+        if (!inGame) {
+            timer.stop();
+        }
+
+    }
+
     public void actionPerformed(ActionEvent ae) {
         checkApple();
+        checkCollision();
         move();
 
         repaint();
