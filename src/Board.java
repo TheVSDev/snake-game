@@ -8,6 +8,12 @@ public class Board extends JPanel {
     private Image dot;
     private Image head;
 
+    private final int ALL_DOTS = 900;
+    private final int DOT_SIZE = 10;
+
+    private final int x[] = new int[ALL_DOTS];
+    private final int y[] = new int[ALL_DOTS];
+
     private int dots;
 
     Board() {
@@ -36,7 +42,26 @@ public class Board extends JPanel {
         dots = 3;
 
         for (int i = 0; i < dots; i++) {
-
+            y[i] = 50;
+            x[i] = 50 - i * DOT_SIZE;
         }
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        draw(g);
+    }
+
+    public void draw(Graphics g) {
+        for (int i = 0; i < dots; i++) {
+            if (i == 0) {
+                g.drawImage(head, x[i], y[i], this);
+            } else {
+                g.drawImage(dot, x[i], y[i], this);
+            }
+        }
+
+        Toolkit.getDefaultToolkit().sync();
     }
 }
