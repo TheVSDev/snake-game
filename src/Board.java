@@ -29,10 +29,12 @@ public class Board extends JPanel implements ActionListener {
     private int dots;
     private Timer timer;
 
+    // Board
     Board() {
         addKeyListener(new TAdapter());
 
         setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(300, 300));
         setFocusable(true);
 
         loadImages();
@@ -82,17 +84,31 @@ public class Board extends JPanel implements ActionListener {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(apple, apple_x, apple_y, this);
+        if (inGame) {
+            g.drawImage(apple, apple_x, apple_y, this);
 
-        for (int i = 0; i < dots; i++) {
-            if (i == 0) {
-                g.drawImage(head, x[i], y[i], this);
-            } else {
-                g.drawImage(dot, x[i], y[i], this);
+            for (int i = 0; i < dots; i++) {
+                if (i == 0) {
+                    g.drawImage(head, x[i], y[i], this);
+                } else {
+                    g.drawImage(dot, x[i], y[i], this);
+                }
             }
-        }
 
-        Toolkit.getDefaultToolkit().sync();
+            Toolkit.getDefaultToolkit().sync();
+        } else {
+            gameOver(g);
+        }
+    }
+
+    public void gameOver(Graphics g) {
+        String msg = "Game Over";
+        Font font = new Font("SAN_SERIF", Font.BOLD, 14);
+        FontMetrics metrices = getFontMetrics(font);
+
+        g.setColor(Color.WHITE);
+        g.setFont(font);
+        g.drawString(msg, (300 - metrices.stringWidth(msg)) / 2, 300/2);
     }
 
     public void move() {
@@ -150,9 +166,11 @@ public class Board extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        checkApple();
-        checkCollision();
-        move();
+        if (inGame) {
+            checkApple();
+            checkCollision();
+            move();
+        }
 
         repaint();
     }
