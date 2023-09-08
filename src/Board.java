@@ -1,7 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements ActionListener {
 
     // Variables
     private Image apple;
@@ -19,6 +20,7 @@ public class Board extends JPanel {
     private final int y[] = new int[ALL_DOTS];
 
     private int dots;
+    private Timer timer;
 
     Board() {
         setBackground(Color.BLACK);
@@ -51,6 +53,9 @@ public class Board extends JPanel {
         }
 
         locateApple();
+
+        timer = new Timer(140, this::actionPerformed);
+        timer.start();
     }
 
     public void locateApple() {
@@ -80,4 +85,21 @@ public class Board extends JPanel {
 
         Toolkit.getDefaultToolkit().sync();
     }
+
+    public void move() {
+        for (int i = dots; i > 0; i--) {
+            x[i] = x[i - 1];
+            y[i] = y[i - 1];
+        }
+
+        x[0] += DOT_SIZE;
+        y[0] += DOT_SIZE;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        move();
+
+        repaint();
+    }
+
 }
