@@ -114,7 +114,15 @@ public class Board extends JPanel implements ActionListener {
 
     }
 
+    public void checkApple() {
+        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+            dots++;
+            locateApple();
+        }
+    }
+
     public void actionPerformed(ActionEvent ae) {
+        checkApple();
         move();
 
         repaint();
