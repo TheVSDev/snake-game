@@ -3,13 +3,17 @@ import java.awt.*;
 
 public class Board extends JPanel {
 
-    // Initialize Image variables
+    // Variables
     private Image apple;
     private Image dot;
     private Image head;
 
     private final int ALL_DOTS = 900;
     private final int DOT_SIZE = 10;
+    private final int RANDOM_POSITION = 29;
+
+    private int apple_x;
+    private int apple_y;
 
     private final int x[] = new int[ALL_DOTS];
     private final int y[] = new int[ALL_DOTS];
@@ -45,6 +49,16 @@ public class Board extends JPanel {
             y[i] = 50;
             x[i] = 50 - i * DOT_SIZE;
         }
+
+        locateApple();
+    }
+
+    public void locateApple() {
+        int r = (int)(Math.random() * RANDOM_POSITION);
+        apple_x = r * DOT_SIZE;
+
+        r = (int)(Math.random() * RANDOM_POSITION);
+        apple_y = r * DOT_SIZE;
     }
 
     public void paintComponent(Graphics g) {
@@ -54,6 +68,8 @@ public class Board extends JPanel {
     }
 
     public void draw(Graphics g) {
+        g.drawImage(apple, apple_x, apple_y, this);
+
         for (int i = 0; i < dots; i++) {
             if (i == 0) {
                 g.drawImage(head, x[i], y[i], this);
